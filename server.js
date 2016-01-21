@@ -5,14 +5,16 @@ var bodyParser = require('body-parser');
 // Access the User model from the db object.
 var db = require('./models');
 var User = db.User;
-var Task = db.Task;
+// var Task = db.Task;
 
 var app = express();
+// use bodyParser so that req.body can be referenced. Using urlencoded on postman, so invoke that with {extended: false} as argument
+app.use(bodyParser.urlencoded({extended: false}));
 
 // Handle post data.
 // 1. Create a user.
 app.post('/users', function (req, res) {
-  db.User.create({
+  User.create({
     username: req.body.username
   }).then(function (user) {
     res.json(user);
@@ -21,7 +23,7 @@ app.post('/users', function (req, res) {
 
 // 2. Create a task.
 app.post('/tasks', function (req, res) {
-  db.Task.create({
+  Task.create({
     title: req.body.title
   }).then(function (task) {
     res.json(task);
